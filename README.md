@@ -16,8 +16,11 @@ Callgraph generation for golang project: Usage Guide
 	b) Get all dependencies:
 	- Eg: cd ~/go/src/traefik && go mod tidy
 
-	c) Execute findEntrypoints script:
+        c) Build callgraph tool (Optional: already exists for linux_x86_64):
+	- go build callgraph.go
+
+	d) Execute findEntrypoints script:
 	- Eg: ./findEntryPoints.sh ~/go/src/traefik/
 
-	d) Extract syscalls from generated callgraph
+	e) Extract syscalls from generated callgraph
 	- Eg: python extractsyscall.py go.src.traefik./ > traefik.syscalls
