@@ -63,7 +63,7 @@ func init() {
 	flag.Var((*buildutil.TagsFlag)(&build.Default.BuildTags), "tags", buildutil.TagsFlagDoc)
 }
 
-const Usage = `callgraph: display the call graph of a Go program.
+const Usage = `callgraph: display the the call graph of a Go program.
 
 Usage:
 
@@ -166,7 +166,7 @@ var stdout io.Writer = os.Stdout
 
 func doCallgraph(dir, gopath, algo, format string, tests bool, args []string) error {
 	if len(args) == 0 {
-		fmt.Fprint(os.Stderr, Usage)
+		fmt.Fprintln(os.Stderr, Usage)
 		return nil
 	}
 
@@ -268,7 +268,7 @@ func doCallgraph(dir, gopath, algo, format string, tests bool, args []string) er
 	case "graphviz":
 		before = "digraph callgraph {\n"
 		after = "}\n"
-		format = `  {{printf "%q" .Caller}} -> {{printf "%q" .Callee}}`
+		format = `  {{printf "%q" .Caller}} -> {{printf "%q" .Callee}} -> {{printf "%q" .FirstArg}}`
 	}
 
 	tmpl, err := template.New("-format").Parse(format)
@@ -286,6 +286,11 @@ func doCallgraph(dir, gopath, algo, format string, tests bool, args []string) er
 		data.edge = edge
 		data.Caller = edge.Caller.Func
 		data.Callee = edge.Callee.Func
+        if len(edge.Site.Common().Args) > 1 {
+            data.FirstArg = edge.Site.Common().Args[0]
+        } else {
+            data.FirstArg = nil
+        }
 
 		buf.Reset()
 		if err := tmpl.Execute(&buf, &data); err != nil {
@@ -325,6 +330,7 @@ type Edge struct {
 	edge     *callgraph.Edge
 	fset     *token.FileSet
 	position token.Position // initialized lazily
+    FirstArg ssa.Value
 }
 
 func (e *Edge) pos() *token.Position {
