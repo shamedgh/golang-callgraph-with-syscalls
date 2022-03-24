@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Author: Tapti Palit
 # Usage
 # ./findEntryPoints.sh github.com/hashicorp/consul
 # python extractsyscall.py github.com.hashicorp.consul/
