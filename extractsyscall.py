@@ -1,3 +1,5 @@
+''' Author: Tapti Palit '''
+
 import sys
 import os
 
