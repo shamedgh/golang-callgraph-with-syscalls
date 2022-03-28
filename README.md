@@ -6,7 +6,7 @@ Callgraph generation for golang project: Usage Guide
 	Follow the link to install: https://go.dev/doc/install
 
 2) Set env variable to use go modules:
-	- export GO111MODULE=on
+	- export GO111MODULE=auto
 
 3) Callgraph tool usage:
 
@@ -23,4 +23,4 @@ Callgraph generation for golang project: Usage Guide
 	- Eg: ./findEntryPoints.sh ~/go/src/traefik/
 
 	e) Extract syscalls from generated callgraph
-	- Eg: python extractsyscall.py go.src.traefik./ > traefik.syscalls
+	- Eg: python extractsyscall.py graph.go.src.traefik./ > traefik.syscalls
